@@ -29,10 +29,7 @@ int main()
                 break;
             default:
                 printf("    Opcao invalida!\n\n");
-                printf("\n    Pressione ENTER para continuar");
-                fflush(stdin);
-                getchar();
-                system("cls");
+                limparTela();
         }
     }
     return 0;
@@ -40,6 +37,8 @@ int main()
 
 void exercicio1(){
     system("cls");
+    int menu = 0;
+    float valor = 0, saque = 0;
     struct Cliente{
         char nome[256];
         char cpf[20];
@@ -65,20 +64,73 @@ void exercicio1(){
     conta_cli.cliente = cli;
     conta_cli.saldo = 0;
 
-    printf("\n\t-- INSERIR SALDO --\n");
-    printf("Informe o valor do deposito: ");
-    scanf("%f", &conta_cli.saldo);
+    while(menu != 4){
+        system("cls");
+        printf("\n\n** OPERACOES **\n");
+        printf(" 1 - Depositar\n");
+        printf(" 2 - Sacar\n");
+        printf(" 3 - Mostrar informações\n");
+        printf(" 4 - Voltar\n");
+        printf("\n    Digite uma das opcoes acima: ");
+        scanf("%d", &menu);
+        switch(menu){
+            case 1 :
+                printf("\nInforme o valor do deposito: ");
+                scanf("%f", &valor);
+                if(valor > 0){
+                    conta_cli.saldo += valor;
+                    printf("\n Deposito realizado com sucesso!");
+                    limparTela();
+                    break;
+                }
+                else{
+                    printf("\n Nao eh possivel depositar um valor menor ou igual a zero!");
+                    limparTela();
+                    break;
+                };
+            case 2 :
+                printf("\nInforme o valor para sacar: ");
+                scanf("%f", &saque);
+                if(conta_cli.saldo <= 0){
+                    printf("\nConta sem saldo!");
+                    limparTela();
+                    break;
+                }
+                else if(saque <= 0){
+                    printf("\nValor invalido para saque!");
+                    limparTela();
+                    break;
+                }
+                else if (conta_cli.saldo < saque){
+                    printf("\nSaldo insuficiente  para saque! SALDO: %.2f - SAQUE: %.2f", conta_cli.saldo, saque);
+                    limparTela();
+                    break;
+                }
+                else{
+                    conta_cli.saldo -= saque;
+                    printf("\n Saque realizado com sucesso!");
+                    limparTela();
+                    break;
+                }
+            case 3 :
+                printf("\n\t -- DADOS DA CONTA --\n");
+                printf("NOME   : %s\n", conta_cli.cliente.nome);
+                printf("CPF    : %s\n", conta_cli.cliente.cpf);
+                printf("N.CONTA: %d\n", conta_cli.numero_da_conta);
+                printf("SALDO  : %.2f\n\n\n", conta_cli.saldo);
+                limparTela();
+                break;
+            case 4 :
+                limparTela();
+                break;
+            default :
+                printf("    Opcao invalida!\n\n");
+                limparTela();
+                break;
+        }
+    }
 
-    printf("\n\t -- DADOS DA CONTA --\n");
-    printf("NOME   : %s\n", conta_cli.cliente.nome);
-    printf("CPF    : %s\n", conta_cli.cliente.cpf);
-    printf("N.CONTA: %d\n", conta_cli.numero_da_conta);
-    printf("SALDO  : %.2f\n\n\n", conta_cli.saldo);
-
-    printf("Pressione ENTER para continuar");
-    fflush(stdin);
-    getchar();
-    system("cls");
+    limparTela();
 
 }
 
@@ -128,6 +180,10 @@ void exercicio2(){
         printf("\nO CNPJ informado eh invalido.");
     }
 
+    limparTela();
+}
+
+void limparTela(){
     printf("\n\nPressione ENTER para continuar");
     fflush(stdin);
     getchar();
